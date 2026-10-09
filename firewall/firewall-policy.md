@@ -2,59 +2,52 @@
 
 ## Objective
 
-Implement least-privilege network access between the Control Center, OT Process, and Plant DMZ security zones.
+Design a segmented industrial control system (ICS) network that restricts communication between operational technology (OT) devices, the Control Center, and the Plant DMZ.
 
-## Configured Firewall Policy
+## Network Security Zones
 
-| Rule | Source | Destination | Protocol | Action |
+| Zone | Purpose |
+|---|---|
+| OT Process | Industrial controllers and process equipment |
+| Control Center | SCADA supervision and monitoring |
+| Plant DMZ | Segregated services and controlled communication between security zones |
+
+## Firewall Policy Design
+
+The lab uses a default-deny firewall policy as its intended security baseline.
+
+| Source | Destination | Protocol | Port | Intended action |
 |---|---|---|---|---|
-| 1 | Control Center | OT Process | TCP 502 (Modbus) | ALLOW |
-| 2 | Other unmatched traffic | Other destinations | Any | DENY (default) |
+| Control Center | OT Process | Modbus TCP | 502 | ALLOW |
+| OT Process | Control Center | Unapproved new connections | Any | DENY |
+| Unapproved zones | OT Process | Unapproved traffic | Any | DENY |
+| Any zone | Any zone | Traffic without an explicit permit rule | Any | DENY |
 
-## Security Decisions
+## Security Controls
 
-### 1. Default-Deny Policy
+- Apply least-privilege access between OT network zones.
+- Restrict Modbus TCP communication to approved paths.
+- Avoid broad access from industrial controllers to the Control Center.
+- Use Suricata IDS for network traffic monitoring.
+- Review firewall rules and network activity for unexpected communication.
+- Document and validate permitted and denied traffic.
 
-A default-deny policy restricts traffic unless an explicit rule permits it.
+## Implementation Progress
 
-### 2. Modbus TCP Access
+**Configured in the OTForge lab:**
+- A 22-device industrial network topology was saved.
+- A default-deny firewall policy was configured.
+- A Control Center-to-OT Process TCP 502 permit rule was configured.
+- Broad OT Process-to-Control Center access was removed.
 
-The Control Center is permitted to initiate Modbus TCP communications toward the OT Process zone on TCP port 502.
+**Validation pending:**
+- Confirm firewall enforcement.
+- Verify authorized SCADA-to-PLC Modbus communication.
+- Test unauthorized cross-zone communication.
+- Collect firewall and IDS evidence.
 
-This exception supports the intended SCADA-to-PLC communication path.
+## Security Principles
 
-### 3. Removal of Broad Access
+This project applies concepts from industrial network segmentation, least privilege, defense in depth, and IEC 62443 zone-and-conduit architecture.
 
-A previously configured broad OT Process-to-Control Center allow rule was removed to reduce unnecessary network exposure.
-
-### 4. OPC UA Rule Review
-
-An unverified TCP 4840 exception was removed because the lab's documented communication requirement uses Modbus TCP.
-
-## Security Risks Addressed
-
-- Unnecessary access between industrial security zones
-- Exposure of industrial control services
-- Potential lateral movement between network segments
-- Excessive firewall permissions
-
-## Validation Status
-
-**Configuration documented; enforcement testing pending.**
-
-Planned tests:
-
-1. Verify permitted SCADA-to-PLC Modbus TCP communication.
-2. Attempt an unauthorized cross-zone connection in the isolated lab.
-3. Inspect firewall logs for allowed and denied traffic.
-4. Confirm that required operational communications remain functional.
-
-## Framework References
-
-- IEC 62443 — Zones, conduits, and industrial security controls
-- NIST SP 800-82 — OT network security guidance
-- NIST CSF — Protect and Detect functions
-
-## Conclusion
-
-The configured firewall policy applies least-privilege principles to the simulated water treatment environment. Its effectiveness will be assessed through subsequent connectivity and security testing.
+The lab is a simulated training environment. Firewall enforcement and security effectiveness must be verified through testing before being reported as validated controls.
