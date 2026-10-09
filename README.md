@@ -1,94 +1,79 @@
-# OT Water Treatment Security Lab
+# OT Water Treatment Cybersecurity Lab
 
-### Industrial Control Systems (ICS) | SCADA | PLC | Network Segmentation | Modbus TCP
+### Industrial Control System Security | SCADA | PLC | Suricata IDS | Docker
 
 ## Project Overview
 
-This project documents a hands-on Operational Technology (OT) cybersecurity lab built using the OTForge Water Treatment environment.
+A hands-on industrial cybersecurity project using OTForge to design, document, and investigate security controls within a simulated water treatment industrial control system (ICS).
 
-The project focuses on designing and assessing a simulated industrial water treatment network, applying defensive security principles, and examining cybersecurity risks affecting PLCs, SCADA systems, and industrial communications.
+The project focuses on network segmentation, Modbus TCP communication, intrusion detection, cybersecurity risk assessment, and security validation.
 
-**Primary objectives:**
-- Understand industrial control system architecture.
-- Design and document segmented OT networks.
-- Analyze Modbus TCP communications.
-- Configure and review industrial firewall policies.
-- Explore threat modeling and vulnerability assessment.
-- Develop practical OT cybersecurity documentation.
+## Technologies & Tools
 
-## Lab Environment
+- **ICS/OT:** SCADA, PLC, Modbus TCP
+- **Security Monitoring:** Suricata IDS
+- **Infrastructure:** Docker, OTForge
+- **Network Security:** Firewall segmentation, default-deny policies, least-privilege access
+- **Security Frameworks:** IEC 62443 concepts, NIST SP 800-82
+- **Documentation:** Network architecture, risk assessment, test results, and security findings
 
-**Platform:** OTForge Water Treatment Simulation
+## Lab Architecture
 
-**Network architecture:** 22-device topology organized across the OT Process, Control Center, and Plant DMZ zones.
+Designed and saved a 22-device industrial topology consisting of:
 
-**Key components:**
-- OpenPLC — simulated industrial controller
-- SCADA server — supervisory monitoring and control
-- Industrial firewall — traffic filtering and network segmentation
-- Industrial network infrastructure
-- Security monitoring and IDS components
+- OT Process network
+- Control Center network
+- Plant DMZ
+- SCADA server and industrial controllers
+- Firewall and intrusion detection components
 
-## Network Architecture
+The architecture uses security zones and defined communication paths to support defense in depth.
 
-| Zone | Purpose |
+## Security Engineering Activities
+
+### 1. OT Network Segmentation
+- Configured a default-deny firewall policy.
+- Defined an explicit Control Center-to-OT Process Modbus TCP 502 permit rule.
+- Removed overly broad access rules.
+- Documented intended communication flows.
+
+### 2. Industrial Intrusion Detection
+- Investigated Suricata 8.0.7 running in passive IDS mode.
+- Confirmed network traffic capture through Suricata EVE JSON logs.
+- Analyzed observed Promtail-to-Loki HTTP traffic.
+- Identified outstanding requirements for Modbus protocol monitoring.
+
+### 3. Security Validation
+- Verified SCADA and PLC container availability.
+- Confirmed local TCP port 502 connectivity on the PLC.
+- Investigated unsuccessful SCADA-to-PLC connectivity.
+- Recorded completed tests and outstanding validation activities.
+
+### 4. Cybersecurity Risk Assessment
+- Developed a preliminary OT security risk register.
+- Evaluated unauthorized Modbus commands, network segmentation weaknesses, SCADA compromise, and monitoring gaps.
+- Proposed mitigations aligned with industrial security principles.
+
+## Project Documentation
+
+| Document | Description |
 |---|---|
-| OT Process | Industrial controllers and process equipment |
-| Control Center | SCADA supervision and operational management |
-| Plant DMZ | Controlled boundary for supporting services |
+| [Network Topology](architecture/network-topology.md) | OT architecture and industrial assets |
+| [Security Diagram](architecture/security-diagram.md) | Network segmentation visualization |
+| [Firewall Policy](firewall/firewall-policy.md) | Intended traffic control rules |
+| [Suricata Monitoring](ids/suricata-monitoring.md) | IDS configuration and observed evidence |
+| [Security Validation](testing/security-validation.md) | Connectivity tests and findings |
+| [Risk Assessment](security/risk-assessment.md) | OT threats, impacts, and mitigations |
+| [Lessons Learned](docs/lessons-learned.md) | Investigation outcomes and next steps |
 
-## Industrial Communication
+## Current Project Status
 
-**Protocol:** Modbus TCP
+**Completed:** Architecture documentation, firewall policy configuration, initial IDS monitoring, connectivity investigation, and preliminary risk assessment.
 
-**Port:** TCP 502
+**In progress:** SCADA-to-PLC connectivity troubleshooting, firewall enforcement validation, Modbus protocol monitoring, and industrial IDS alert testing.
 
-**Example lab assets:**
-- OpenPLC: `10.200.10.10`
-- SCADA Server: `10.200.20.10`
+## Security Focus
 
-The architecture includes a firewall rule permitting Modbus TCP traffic from the Control Center to the OT Process network.
+This project demonstrates practical learning in industrial network architecture, OT security monitoring, risk-based analysis, and evidence-driven troubleshooting.
 
-## Security Controls
-
-### Network Segmentation
-Separate industrial process equipment from supervisory systems and supporting services.
-
-### Firewall Policy
-- Default-deny traffic policy
-- Explicit allowance for required Modbus TCP communications
-- Removal of unnecessarily broad access rules
-- Review of protocol-specific exceptions
-
-### Security Assessment
-The project will document threat scenarios, potential attack paths, and defensive recommendations.
-
-## Project Status
-
-**In progress**
-
-Completed:
-- Created and saved the 22-device OT topology
-- Organized OT Process, Control Center, and Plant DMZ zones
-- Configured initial firewall segmentation rules
-
-Planned:
-- Validate communications and firewall behavior
-- Review IDS deployment and monitoring
-- Conduct authorized vulnerability assessments
-- Develop a threat model and risk register
-- Document findings and mitigation recommendations
-
-## Relevant Skills
-
-OT Security • ICS Security • SCADA • PLC • Modbus TCP • Network Security • Firewall Configuration • Network Segmentation • Threat Modeling • Security Documentation
-
-## Disclaimer
-
-This project is conducted in a simulated, authorized lab environment for educational and defensive security research. It does not represent a production industrial deployment.
-
-## Author
-
-**Chathura Chamantha**
-
-[GitHub](https://github.com/chathura1844) | [LinkedIn](https://www.linkedin.com/in/chathura-comptia-security-59577218b) | [Cybersecurity Portfolio](https://chathura-cybersecurity.cchamara2.chatgpt.site)
+It is a simulated training project and does not represent a production deployment or formal IEC 62443 compliance assessment.
