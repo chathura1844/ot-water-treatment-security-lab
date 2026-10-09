@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-![OT Water Treatment Cybersecurity Lab Architecture](ot-security-architecture.png)
+![OT Water Treatment Cybersecurity Lab Architecture](OT%20Water%20Treatment%20Cybersecurity%20Lab.png)
 
 A hands-on industrial cybersecurity project using OTForge to design, document, and investigate security controls within a simulated water treatment industrial control system (ICS).
 
